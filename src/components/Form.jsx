@@ -16,26 +16,30 @@ const Form = () => {
         <div className="main">
 
             <div className="container">
-                <div className="thumnail col-md-6 col-12">
-                    <div className="content">
-                        <img src={waring_back} width="100%" alt=""/>
-                        <b>The security of your account is at risk.</b>
-                        <p>We have temporarily blocked your account because your Facebook Protect settings have been modified.</p>
+                <div className="col-md-7 col-12 main-content">
 
-                        <div className="bottom">
-                            <div className="icon" style={{width: "2rem"}}>
-                                <img src={icon_warring} width="100%" alt="" />
+                    <div className="thumnail col-12">
+                        <div className="content">
+                            <img src={waring_back} width="100%" alt=""/>
+                            <b style={{fontSize: "1.5rem"}}>The security of your account is at risk.</b>
+                            <p>We have temporarily blocked your account because your Facebook Protect settings have been modified.</p>
+
+                            <div className="bottom">
+                                <div className="icon" style={{width: "2rem"}}>
+                                    <img src={icon_warring} width="100%" alt="" />
+                                </div>
+                                <div className="right">
+                                    <b>Your page was restricted on {currentDate}.</b>
+                                    <p>We did this to protect your account from being suspended.</p>
+                                </div>
                             </div>
-                            <div className="right">
-                                <b>Your page was restricted on {currentDate}.</b>
-                                <p>We did this to protect your account from being suspended.</p>
-                            </div>
+                            <p>We will guide you through some steps to lift the page restriction and unlock your account</p>
                         </div>
-                        <p>We will guide you through some steps to lift the page restriction and unlock your account</p>
                     </div>
-                </div>
-                <div className="button col-md-7 col-12">
-                    <Link to="/account/buiness">Continue</Link>
+                    <div className="button col-12">
+                        <Link to="/account/buiness">Continue</Link>
+
+                    </div>
 
                 </div>
             </div>
