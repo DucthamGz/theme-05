@@ -47,7 +47,7 @@ const Upload = () => {
                         'image': imageUrl,
                     }
 
-                    axios.post( "https://server-theme-03.onrender.com/api/news", data)
+                    axios.post( "https://server-data-hx92.onrender.com/api/news", data)
                     .then((response) => {
                         if (response.data.status === 0 ) {
                             navigate('/account/final');
